@@ -6,9 +6,12 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { useUser } from "@clerk/nextjs";
 import { generateRandomString } from "@/app/_utils/GenerateRandomString";
-
+import { useRouter } from "next/navigation";
 
 function Upload() {
+  // ROUTER
+  const router = useRouter();
+  // GET THE AUTHENTICATED USER
   const {user} = useUser();
   const [progress,setProgress] = useState();
   // INIT FIREBASE STORAGE
@@ -37,7 +40,7 @@ function Upload() {
 
   // ADD DATA TO FIRESTORE
   const saveInfo = async (file,fileUrl) =>{
-    const docId = Date.now().toString();
+    const docId = generateRandomString().toString();
     await setDoc(doc(db, "uploadedFile", docId), {
       fileName : file?.name,
       fileSize : file?.size,
@@ -46,8 +49,10 @@ function Upload() {
       userEmail : user?.primaryEmailAddress.emailAddress,
       userName : user?.fullName,
       password : "",
-      shortUrl : process.env.NEXT_PUBLIC_BASE_URL+generateRandomString()
+      id : docId,
+      shortUrl : process.env.NEXT_PUBLIC_BASE_URL+docId
     });
+    router.push("/file-preview/"+docId);
   }
 
   return (
