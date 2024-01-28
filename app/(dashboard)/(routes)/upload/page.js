@@ -3,10 +3,19 @@ import React, { useState } from "react";
 import UploadForm from "./_components/UploadForm";
 import { app } from "@/firebaseConfig";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useUser } from "@clerk/nextjs";
+import { generateRandomString } from "@/app/_utils/GenerateRandomString";
+
 
 function Upload() {
+  const {user} = useUser();
   const [progress,setProgress] = useState();
+  // INIT FIREBASE STORAGE
   const storage = getStorage(app);
+  // INIT FIRESTORE
+  const db = getFirestore(app);
+  //UPLOAD FILE
   const uploadFile = (file) => {
     const metadata = {
       contentType: file.type,
@@ -21,9 +30,25 @@ function Upload() {
       // Upload completed successfully, now we can get the download URL
       progress == 100 && getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log('File available at', downloadURL);  
+        saveInfo(file,downloadURL);
       });
     });
   };
+
+  // ADD DATA TO FIRESTORE
+  const saveInfo = async (file,fileUrl) =>{
+    const docId = Date.now().toString();
+    await setDoc(doc(db, "uploadedFile", docId), {
+      fileName : file?.name,
+      fileSize : file?.size,
+      fileType : file?.type,
+      fileUrl,
+      userEmail : user?.primaryEmailAddress.emailAddress,
+      userName : user?.fullName,
+      password : "",
+      shortUrl : process.env.NEXT_PUBLIC_BASE_URL+generateRandomString()
+    });
+  }
 
   return (
     <div className="p-5 px-8">
