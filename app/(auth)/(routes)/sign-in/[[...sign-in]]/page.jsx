@@ -1,4 +1,4 @@
-import Constants from "@/app/_utils/Constants";
+import Constants from "../../../../_utils/Constants";
 import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {

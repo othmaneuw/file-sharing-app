@@ -34,6 +34,12 @@ function FileShareForm({file,onPasswordSave}) {
               onClick={()=>onPasswordSave(password)}>Save</button>
         </div>    }
 
+        <div className='p-5 border rounded-md flex flex-col gap-2'>
+         <label className='text-gray-500 text-[13px]'>Send file to Email</label>
+         <input className='border rounded-md p-2' type='text' placeholder='example@gmail.com' />
+         <button className='bg-primary p-3 rounded-md text-white font-bold'>Send File</button>
+        </div>
+
     </div>
   )
 }
