@@ -3,11 +3,12 @@ import AlertMsg from "./AlertMsg";
 import FilePreview from "./FilePreview";
 import ProgressBar from "./ProgressBar";
 import AlertUpload from "./AlertUpload";
+import axios from "axios";
 
 function UploadForm({uploadBtnClick,progress}) {
   const [file,setFile] = useState(null);
   const [errorMsg,setErrorMsg] = useState(null);
-  const onFileSelect = (file) =>{
+  const onFileSelect = async (file) =>{
         console.log(file);
         if(file && file.size > 2000000){
           console.log("File Greater than 2 MB");
@@ -16,6 +17,12 @@ function UploadForm({uploadBtnClick,progress}) {
         }
         setFile(file);
         setErrorMsg(null);
+        //
+        // const formData = new FormData();
+        // formData.append('file',file);
+        // const response = await axios.post("http://localhost:4000/api/files",formData);
+        // console.log(response);
+
   }
   return (
     <div className="text-center">

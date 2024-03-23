@@ -7,7 +7,7 @@ function Hero() {
       <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex">
         <div className="mx-auto max-w-xl text-center">
           <h1 className="text-3xl font-extrabold sm:text-5xl">
-            <span className="text-primary">Upload, Save</span> and easily <span className="text-primary">Share</span> files in one place
+            <span className="text-primary">PFA</span> Réalisé par  <span className="text-primary">Othmane</span> et <span className="text-primary">Ziyad</span>
           </h1>
 
           <p className="mt-4 sm:text-xl/relaxed text-gray-500">

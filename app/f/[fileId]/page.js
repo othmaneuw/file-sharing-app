@@ -29,7 +29,7 @@ function FileView({params}) {
         <Link href={""}>
           <Image src="/logo.svg" height="50" width="50" />
         </Link>
-        <FileItem file={file}/>
+        <FileItem file={file} fileId={params.fileId}/>
     </div>
   )
 }

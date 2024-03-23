@@ -4,6 +4,7 @@ import GlobalApi from '../../../../../_utils/GlobalApi';
 import { useUser } from '@clerk/nextjs';
 
 function FileShareForm({file,onPasswordSave}) {
+   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const [isPasswordEnabled,setIsPasswordEnabled] = useState(false);
   const [password,setPassword] = useState("");
   const [email,setEmail] = useState("");
@@ -51,10 +52,15 @@ function FileShareForm({file,onPasswordSave}) {
 
         <div className='p-5 border rounded-md flex flex-col gap-2'>
          <label className='text-gray-500 text-[13px]'>Send file to Email</label>
-         <input className='border rounded-md p-2' type='text' placeholder='example@gmail.com' />
+         <input className='border rounded-md p-2' type='text'
+          placeholder='example@gmail.com' 
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+          />
          <button 
-         className='bg-primary p-3 rounded-md text-white font-bold'
+         className='bg-primary p-3 rounded-md text-white font-bold disabled:bg-gray-500'
          onClick={()=>sendEmail()}
+         disabled={!emailRegex.test(email)}
          >Send File</button>
         </div>
 

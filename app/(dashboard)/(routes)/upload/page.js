@@ -7,6 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { generateRandomString } from "../../../_utils/GenerateRandomString";
 import { useRouter } from "next/navigation";
 import { app } from "../../../../firebaseConfig";
+import axios from "axios";
 
 function Upload() {
   // ROUTER
@@ -52,6 +53,11 @@ function Upload() {
       id : docId,
       shortUrl : process.env.NEXT_PUBLIC_BASE_URL+docId
     });
+    const formData = new FormData();
+        formData.append('file',file);
+        formData.append('uuid',docId);
+        const response = await axios.post("http://localhost:4000/api/files",formData);
+        console.log(response);
     router.push("/file-preview/"+docId);
   }
 
